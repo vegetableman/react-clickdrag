@@ -61,28 +61,31 @@ function clickDrag(Component, opts = {}) {
     }
 
     onMouseDown(e) {
+      e.preventDefault();
       // only left mouse button
       if (touch || e.button === 0) {
         const pt = (e.changedTouches && e.changedTouches[0]) || e;
 
         this.setMousePosition(pt.clientX, pt.clientY);
 
-        onDragStart(e);
+        onDragStart(e, this.props);
       }
     }
 
     onMouseUp(e) {
+      e.preventDefault();
       if (this.state.isMouseDown) {
         this.setState({
           isMouseDown: false,
           isMoving: false,
         });
 
-        onDragStop(e);
+        onDragStop(e, this.props);
       }
     }
 
     onMouseMove(e) {
+      e.preventDefault();
       if (this.state.isMouseDown) {
         const pt = (e.changedTouches && e.changedTouches[0]) || e;
 
@@ -99,7 +102,7 @@ function clickDrag(Component, opts = {}) {
           });
         }
 
-        onDragMove(e);
+        onDragMove(e, this.props);
       }
     }
 

@@ -18,9 +18,13 @@ class ExampleComponent extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.dataDrag.isMoving) {
+      console.log(nextProps.dataDrag.moveDeltaX);
       this.setState({
-        currentX: this.state.lastPositionX + nextProps.dataDrag.moveDeltaX,
-        currentY: this.state.lastPositionY + nextProps.dataDrag.moveDeltaY,
+        currentX: Math.min(
+          Math.max(this.state.lastPositionX + nextProps.dataDrag.moveDeltaX, 0),
+          100
+        ),
+        currentY: 0,
       });
     } else {
       this.setState({
@@ -33,9 +37,19 @@ class ExampleComponent extends React.Component {
   render() {
     var translation = 'translate(' + this.state.currentX + 'px, ' + this.state.currentY + 'px)';
 
-    return React.createElement('div', {
-      style: { width: '200px', height: '200px', backgroundColor: 'red', transform: translation },
-    });
+    return React.createElement(
+      'div',
+      {
+        style: {
+          width: '100px',
+          height: '100px',
+          backgroundColor: '#ddd',
+        },
+      },
+      React.createElement('div', {
+        style: { width: '10px', height: '100px', backgroundColor: 'red', transform: translation },
+      })
+    );
   }
 }
 
